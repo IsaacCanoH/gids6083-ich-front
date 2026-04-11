@@ -1,0 +1,29 @@
+<div class="modal-overlay d-flex justify-content-center align-items-center">
+
+  <div class="card shadow-lg border-0 rounded-4 w-100" style="max-width: 600px;">
+
+    <!-- HEADER -->
+    <div class="card-header d-flex justify-content-between align-items-center py-3 px-4"
+         style="background: linear-gradient(135deg, #0C2B4E 0%, #1A3D64 100%); color: #FFFFFF; border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+
+      <h5 class="mb-0 fw-semibold">Crear tarea</h5>
+
+      <button type="button"
+              (click)="close()"
+              class="btn btn-sm d-flex align-items-center justify-content-center"
+              style="background-color: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.4); color: #FFFFFF;">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- BODY -->
+    <div class="card-body p-4">
+
+      <!-- AQUÍ VA TU FORM (NO LO TOCAMOS) -->
+      <app-task-form (formSubmit)="onSubmit($event)" />
+
+    </div>
+
+  </div>
+
+</div>

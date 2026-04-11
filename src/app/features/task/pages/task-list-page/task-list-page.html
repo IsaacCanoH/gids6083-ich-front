@@ -1,0 +1,200 @@
+<!-- HEADER / NAVBAR -->
+<header class="shadow" style="background: linear-gradient(135deg, #0C2B4E 0%, #1A3D64 100%);">
+    <div class="container-fluid">
+        <div class="row align-items-center py-3 px-2 px-md-4">
+            <!-- Logo y Nombre -->
+            <div class="col-6 col-md-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center"
+                            style="width:48px;height:48px;background-color: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);">
+                        <i class="bi bi-journal-bookmark fs-4" style="color: #FFFFFF;"></i>
+                    </div>
+                    <span class="fs-4 fw-bold d-none d-sm-inline" style="color: #FFFFFF; letter-spacing: 0.5px;">MisTareas</span>
+                </div>
+            </div>
+            <!-- Usuario y Cerrar Sesión -->
+            <div class="col-6 col-md-8">
+                <div class="d-flex align-items-center justify-content-end gap-2 gap-md-4">
+                    <div *ngIf="user() as currentUser" class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                style="width:42px;height:42px;background-color: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);">
+                            <i class="bi bi-person fs-5" style="color: #FFFFFF;"></i>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <p class="mb-0 small fw-semibold" style="color: #FFFFFF;">{{ currentUser.name }} {{ currentUser.lastname }}</p>
+                            <!-- <p class="mb-0 small" style="color: rgba(255,255,255,0.7);">Administrador</p> -->
+                        </div>
+                    </div>
+                    <div class="vr d-none d-md-block" style="background-color: rgb(255, 255, 255);"></div>
+                    <button (click)="logout()"
+                            class="btn btn-sm d-flex align-items-center gap-2 fw-semibold px-3 py-2 btn-cerrar-sesion"
+                            style="background-color: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.4); color: #FFFFFF;">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="d-none d-sm-inline">Cerrar Sesión</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="container-fluid py-4 px-3 px-md-5">
+
+    <!-- Título de la Sección -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                <div>
+                    <h1 class="fs-3 fw-bold mb-1" style="color: #0C2B4E;">Panel de Tareas</h1>
+                    <p class="mb-0 small" style="color: #1A3D64;">Gestiona y organiza todas tus tareas de manera eficiente</p>
+                </div>
+                <button routerLink="/tasks/create"
+                        class="btn d-flex align-items-center gap-2 fw-semibold px-4 py-2 shadow-sm"
+                        style="background: linear-gradient(135deg, #0C2B4E 0%, #1D546C 100%); border: none; color: #FFFFFF; border-radius: 8px;">
+                    <i class="bi bi-plus-lg"></i>
+                    Crear Tarea
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Principal -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow rounded-4" style="background-color: #FFFFFF;">
+                <div class="card-body p-4">
+
+                    <!-- Filtros y Buscador -->
+                    <div class="row g-3 mb-4">
+                        <!-- Buscador -->
+                        <div class="col-12 col-md-6 col-lg-5">
+                            <label class="form-label fw-semibold small" style="color: #0C2B4E;">Buscar Tarea</label>
+                            <div class="input-group shadow-sm">
+                                <!-- style="background: linear-gradient(135deg, #0C2B4E 0%, #1D546C 100%); color: #FFFFFF; border: none;" -->
+                                <span class="input-group-text" style="background-color: #F4F4F4; color: #1A3D64; border: 2px solid #d9dde2;">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" class="form-control py-2"
+                                        placeholder="Buscar por nombre o descripción..."
+                                        (input)="onSearch($any($event.target).value)"
+                                        style="border: 2px solid #d9dde2; border-left: none;">
+                            </div>
+                        </div>
+                        <!-- Filtro por Prioridad -->
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <label class="form-label fw-semibold small" style="color: #0C2B4E;">Filtrar por Prioridad</label>
+                            <select
+                              class="form-select py-2 shadow-sm"
+                              style="border: 2px solid #d9dde2; color: #1A3D64;"
+                              (change)="onPriorityFilterChange($any($event.target).value)"
+                            >
+                                <option value="">Todas las prioridades</option>
+                                <option value="true">Alta (Prioritaria)</option>
+                                <option value="false">Normal</option>
+                            </select>
+                        </div>
+                        <!-- Contador de Tareas -->
+                        <div class="col-12 col-md-2 col-lg-4 d-flex align-items-end justify-content-md-end">
+                            <div class="d-flex align-items-center gap-2 px-4 py-2 rounded-3" style="background-color: transparent; border: 2px solid #0C2B4E;">
+                                <i class="bi bi-list-task" style="color: #0C2B4E;"></i>
+                                <span class="small fw-semibold" style="color: #0C2B4E;">Total: {{ filteredTasks().length }} tareas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Separador -->
+                    <hr style="border-color: #d9dde2; border-width: 2px;">
+
+                    <!-- Tabla de Tareas -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #0C2B4E 0%, #1A3D64 100%);">
+                                    <th class="fw-semibold py-3 ps-3" style="color: #0C2B4E; border: none;">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-tag"></i>
+                                            Nombre
+                                        </div>
+                                    </th>
+                                    <th class="fw-semibold py-3" style="color: #0C2B4E; border: none;">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-text-left"></i>
+                                            Descripción
+                                        </div>
+                                    </th>
+                                    <th class="fw-semibold py-3 text-center" style="color: #0C2B4E; border: none;">
+                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                            <i class="bi bi-flag"></i>
+                                            Prioridad
+                                        </div>
+                                    </th>
+                                    <th class="fw-semibold py-3 text-center pe-3" style="color: #0C2B4E; border: none;">
+                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                            <i class="bi bi-gear"></i>
+                                            Acciones
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let task of paginatedTasks()">
+                                    <td class="py-3 ps-3" style="color: #0C2B4E; border-bottom: 2px solid #F4F4F4;">
+                                        <span class="fw-semibold">{{ task.name }}</span>
+                                    </td>
+                                    <td class="py-3" style="color: #1A3D64; border-bottom: 2px solid #F4F4F4;">
+                                        {{ task.description }}
+                                    </td>
+                                    <td class="py-3 text-center" style="border-bottom: 2px solid #F4F4F4;">
+                                        <span class="badge rounded-pill px-3 py-2" style="background-color: transparent; border: 2px solid #0C2B4E; color: #0C2B4E;">
+                                            {{ task.priority ? "Alta": "Normal" }}
+                                        </span>
+                                    </td>
+                                    <td class="py-3 text-center pe-3" style="border-bottom: 2px solid #F4F4F4;">
+                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                            <a [routerLink]="['/tasks', task.id, 'edit']"
+                                                    class="btn btn-sm d-flex align-items-center gap-1 fw-semibold px-3 py-2"
+                                                    style="background-color: transparent; border: 2px solid #1D546C; color: #1D546C; border-radius: 6px;">
+                                                <i class="bi bi-pencil"></i>
+                                                <span>Editar</span>
+                                            </a>
+                                            <button (click)="deleteTask(task.id)"
+                                                    class="btn btn-sm d-flex align-items-center gap-1 fw-semibold px-3 py-2 btn-eliminar"
+                                                    style="background-color: transparent; border: 2px solid #dc3545; color: #dc3545; border-radius: 6px;">
+                                                <i class="bi bi-trash"></i>
+                                                <span>Eliminar</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+
+                          <button (click)="prevPage()"
+                                  [disabled]="currentPage() === 1"
+                                  class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-chevron-left"></i> Anterior
+                          </button>
+
+                          <span class="small fw-semibold">
+                            Página {{ currentPage() }} de {{ totalPages() }}
+                          </span>
+
+                          <button (click)="nextPage()"
+                                  [disabled]="currentPage() === totalPages()"
+                                  class="btn btn-sm btn-outline-primary">
+                            Siguiente <i class="bi bi-chevron-right"></i>
+                          </button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <router-outlet />
+  <app-notification/>
+</main>

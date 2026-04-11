@@ -1,0 +1,196 @@
+:root {
+    --toast-success: #198754;
+    --toast-warning: #fd7e14;
+    --toast-danger: #dc3545;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Contenedor de Toasts */
+.toast-container {
+    z-index: 1080;
+}
+
+/* Estilos personalizados para los toasts */
+.toast {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    min-width: 350px;
+}
+
+.toast-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 16px;
+}
+
+.toast-body {
+    padding: 16px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Toast de Éxito */
+.toast-success {
+    background: linear-gradient(135deg, rgba(25, 135, 84, 0.95) 0%, rgba(20, 108, 67, 0.95) 100%);
+    color: #fff;
+}
+
+.toast-success .toast-header {
+    background: rgba(0, 0, 0, 0.15);
+    color: #fff;
+}
+
+.toast-success .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+/* Toast de Emergencia/Advertencia */
+.toast-warning {
+    background: linear-gradient(135deg, rgba(253, 126, 20, 0.95) 0%, rgba(220, 100, 10, 0.95) 100%);
+    color: #fff;
+}
+
+.toast-warning .toast-header {
+    background: rgba(0, 0, 0, 0.15);
+    color: #fff;
+}
+
+.toast-warning .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+/* Toast de Error */
+.toast-danger {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.95) 0%, rgba(180, 40, 55, 0.95) 100%);
+    color: #fff;
+}
+
+.toast-danger .toast-header {
+    background: rgba(0, 0, 0, 0.15);
+    color: #fff;
+}
+
+.toast-danger .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+/* Iconos */
+.toast-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 14px;
+}
+
+/* Barra de progreso */
+.toast-progress {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.toast-progress-bar {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* Animación de entrada */
+.toast.showing {
+    animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast.hiding {
+    animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Botones de demostración */
+.demo-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-demo {
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-demo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.btn-success-demo {
+    background: linear-gradient(135deg, #198754, #146c43);
+    color: #fff;
+}
+
+.btn-warning-demo {
+    background: linear-gradient(135deg, #fd7e14, #dc6a0a);
+    color: #fff;
+}
+
+.btn-danger-demo {
+    background: linear-gradient(135deg, #dc3545, #b42837);
+    color: #fff;
+}
+
+h1 {
+    color: #fff;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+}
+
+.text-muted-light {
+    color: rgba(255, 255, 255, 0.6);
+}

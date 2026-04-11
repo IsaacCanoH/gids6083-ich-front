@@ -1,0 +1,80 @@
+<div class="container-fluid min-vh-100">
+  <div class="row min-vh-100">
+
+    <!-- IZQUIERDO -->
+    <div
+      class="col-lg-6 d-none d-lg-flex text-white p-5"
+      style="background: linear-gradient(135deg, #0C2B4E 0%, #1A3D64 55%, #1D546C 100%);"
+    >
+      <div class="d-flex flex-column h-100 w-100">
+        <div class="d-flex align-items-center gap-3">
+          <div
+            class="rounded-3 d-flex align-items-center justify-content-center"
+            style="width:48px;height:48px;background-color: rgba(244, 244, 244, 0.12);"
+          >
+            <i class="bi bi-journal-bookmark-fill fs-5"></i>
+          </div>
+          <span class="fs-4 fw-semibold">MisTareas</span>
+        </div>
+
+        <div class="flex-grow-1 d-flex align-items-center">
+          <div>
+            <h1 class="display-6 fw-bold lh-sm mb-3">
+              Lleva el control de tus tareas
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DERECHO -->
+    <div
+      class="col-12 col-lg-6 d-flex align-items-center justify-content-center py-5"
+      style="background-color: #F4F4F4;"
+    >
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-11 col-lg-11 col-xl-10 col-xxl-9">
+            <div class="card border-0 shadow-sm rounded-4">
+              <div class="card-body p-4 p-md-5">
+
+                <!-- HEADER -->
+                <div class="mb-4">
+                  <h2 class="fw-bold fs-3 mb-2" style="color: #0C2B4E;">
+                    Iniciar sesión
+                  </h2>
+                  <p class="small mb-0" style="color: #1A3D64;">
+                    Ingrese sus credenciales para continuar
+                  </p>
+                </div>
+
+                <!-- FORM -->
+                <app-login-form (formSubmit)="onSubmit($event)" />
+
+
+                <!-- FOOTER -->
+                <div
+                  class="text-center border-top pt-3 mt-4"
+                  style="border-color: #e3e7eb;"
+                >
+                  <p class="small mb-0" style="color: #1A3D64;">
+                    ¿No tienes cuenta?
+                    <a
+                      routerLink="/users/register"
+                      class="fw-semibold text-decoration-none"
+                      style="color: #1D546C;"
+                    >
+                      Regístrate
+                    </a>
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

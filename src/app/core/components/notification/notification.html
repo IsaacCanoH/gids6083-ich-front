@@ -1,0 +1,37 @@
+<div class="toast-container position-fixed top-0 end-0 p-4">
+
+  <div *ngFor="let toast of notifications()"
+       class="toast show"
+       [ngClass]="'toast-' + toast.type">
+
+    <div class="toast-header">
+      <span class="toast-icon me-2">
+        <i class="bi"
+           [ngClass]="{
+             'bi-check-lg': toast.type === 'success',
+             'bi-exclamation-triangle': toast.type === 'warning',
+             'bi-x-lg': toast.type === 'danger'
+           }"></i>
+      </span>
+
+      <strong class="me-auto">{{ toast.title }}</strong>
+
+      <small class="opacity-75">Ahora</small>
+
+      <button type="button"
+              class="btn-close btn-close-white ms-2"
+              (click)="remove(toast.id)">
+      </button>
+    </div>
+
+    <div class="toast-body">
+      {{ toast.message }}
+    </div>
+
+    <div class="toast-progress">
+      <div class="toast-progress-bar"></div>
+    </div>
+
+  </div>
+
+</div>

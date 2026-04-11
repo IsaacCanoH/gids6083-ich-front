@@ -1,0 +1,87 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <!-- NOMBRE -->
+  <div class="mb-4">
+    <label class="form-label fw-semibold" style="color: #0C2B4E;">
+      Nombre
+    </label>
+
+    <div class="input-group shadow-sm">
+      <span class="input-group-text" style="background-color: #F4F4F4; color: #1A3D64; border: 2px solid #d9dde2;">
+        <i class="bi bi-tag"></i>
+      </span>
+
+      <input
+        type="text"
+        class="form-control"
+        formControlName="name"
+        placeholder="Ingrese el nombre de la tarea"
+        style="border: 2px solid #d9dde2; border-left: none;"
+      />
+    </div>
+
+    <div *ngIf="form.controls.name.touched && form.controls.name.invalid" class="mt-2">
+      <small *ngIf="form.controls.name.errors?.['required']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> El nombre es obligatorio.
+      </small>
+      <small *ngIf="form.controls.name.errors?.['minlength']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> Mínimo 3 caracteres.
+      </small>
+    </div>
+  </div>
+
+  <!-- DESCRIPCIÓN -->
+  <div class="mb-4">
+    <label class="form-label fw-semibold" style="color: #0C2B4E;">
+      Descripción
+    </label>
+
+    <div class="input-group shadow-sm">
+      <span class="input-group-text align-items-start pt-3" style="background-color: #F4F4F4; color: #1A3D64; border: 2px solid #d9dde2;">
+        <i class="bi bi-text-paragraph"></i>
+      </span>
+
+      <textarea
+        class="form-control"
+        formControlName="description"
+        rows="4"
+        placeholder="Ingrese una descripción para la tarea"
+        style="border: 2px solid #d9dde2; border-left: none; resize: none;"
+      ></textarea>
+    </div>
+
+    <div *ngIf="form.controls.description.touched && form.controls.description.invalid" class="mt-2">
+      <small *ngIf="form.controls.description.errors?.['required']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> La descripción es obligatoria.
+      </small>
+    </div>
+  </div>
+
+  <!-- PRIORIDAD -->
+  <!-- PRIORIDAD -->
+<div class="mb-4">
+  <div class="form-check form-switch">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      role="switch"
+      id="prioritySwitch"
+      formControlName="priority"
+    />
+    <label class="form-check-label fw-semibold ms-2" for="prioritySwitch" style="color: #1A3D64;">
+      Prioritaria
+    </label>
+  </div>
+</div>
+
+  <!-- BOTÓN -->
+  <button
+    type="submit"
+    class="btn w-100 fw-semibold py-2 shadow-sm"
+    style="background: linear-gradient(135deg, #0C2B4E 0%, #1D546C 100%); color: #F4F4F4; border: none;"
+  >
+    <i class="bi bi-check2-circle me-2"></i>
+    Guardar tarea
+  </button>
+
+</form>
