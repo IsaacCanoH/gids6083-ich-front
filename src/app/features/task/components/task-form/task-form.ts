@@ -3,7 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../../models/task.model';
 import { CreateTaskRequest } from '../../models/create-task-request.model';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { CustomValidators } from '../../../../core/validators/custom-validators';
+import { blockSpace } from '../../../../core/utils/input.utils';
 
 @Component({
   selector: 'app-task-form',
@@ -13,13 +14,39 @@ import { RouterLink } from '@angular/router';
 })
 export class TaskForm {
   private readonly fb = inject(FormBuilder);
+  readonly blockSpace = blockSpace;
 
   @Input() initialData: Task | null = null;
   @Output() formSubmit = new EventEmitter<CreateTaskRequest>();
 
-  form = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    description: ['', [Validators.required, Validators.minLength(3)]],
+  readonly form = this.fb.nonNullable.group({
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100),
+        CustomValidators.noSpaces(),
+        CustomValidators.patternValidator(
+          CustomValidators.onlyLettersAndNumbers,
+          'onlyLettersAndNumbers'
+        )
+      ]
+    ],
+    description: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100),
+        CustomValidators.noSpaces(),
+        CustomValidators.patternValidator(
+          CustomValidators.onlyLettersAndNumbers,
+          'onlyLettersAndNumbers'
+        )
+
+      ]
+    ],
     priority: [false]
   });
 
@@ -34,10 +61,7 @@ export class TaskForm {
   }
 
   submit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
+    if (this.form.invalid) return;
 
     const value = this.form.value as CreateTaskRequest;
     this.formSubmit.emit(value);

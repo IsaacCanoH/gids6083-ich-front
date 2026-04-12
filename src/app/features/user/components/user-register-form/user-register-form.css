@@ -1,0 +1,9 @@
+.form-control.is-invalid,
+textarea.form-control.is-invalid {
+  border-color: #dc3545;
+  box-shadow: none;
+}
+
+.input-group .form-control.is-invalid {
+  z-index: 2;
+}

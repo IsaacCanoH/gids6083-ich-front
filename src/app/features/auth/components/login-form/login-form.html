@@ -19,6 +19,7 @@
         class="form-control"
         formControlName="username"
         placeholder="Usuario"
+        (keydown)="blockSpace($event)"
       />
     </div>
 
@@ -28,6 +29,9 @@
       </small>
       <small *ngIf="form.controls.username.errors?.['minlength']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> Mínimo 3 caracteres.
+      </small>
+      <small *ngIf="form.controls.username.errors?.['noSpaces']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
       </small>
     </div>
   </div>
@@ -53,6 +57,7 @@
         class="form-control"
         formControlName="password"
         placeholder="Contraseña"
+        (keydown)="blockSpace($event)"
       />
 
       <span
@@ -74,6 +79,9 @@
       <small *ngIf="form.controls.password.errors?.['minlength']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> Mínimo 3 caracteres.
       </small>
+      <small *ngIf="form.controls.username.errors?.['noSpaces']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      </small>
     </div>
   </div>
 
@@ -81,6 +89,7 @@
     type="submit"
     class="btn w-100 fw-semibold mt-3"
     style="background-color: #0C2B4E; color: #F4F4F4;"
+    [disabled]="form.invalid"
   >
     Ingresar al sistema
   </button>

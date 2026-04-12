@@ -11,6 +11,7 @@
       class="form-control"
       formControlName="name"
       placeholder="Nombre"
+      [class.is-invalid]="form.controls.name.touched && form.controls.name.invalid"
     />
 
     <div *ngIf="form.controls.name.touched && form.controls.name.invalid">
@@ -22,6 +23,12 @@
       </small>
       <small *ngIf="form.controls.name.errors?.['maxLength']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> Mínimo 100 caracteres.
+      </small>
+      <small *ngIf="form.controls.name.errors?.['noSpaces']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      </small>
+      <small *ngIf="form.controls.name.errors?.['onlyLetters']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
       </small>
     </div>
   </div>
@@ -37,6 +44,7 @@
       class="form-control"
       formControlName="lastname"
       placeholder="Apellido"
+      [class.is-invalid]="form.controls.lastname.touched && form.controls.lastname.invalid"
     />
 
     <div *ngIf="form.controls.lastname.touched && form.controls.lastname.invalid">
@@ -48,6 +56,12 @@
       </small>
       <small *ngIf="form.controls.lastname.errors?.['maxLength']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> Mínimo 100 caracteres.
+      </small>
+      <small *ngIf="form.controls.lastname.errors?.['noSpaces']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      </small>
+      <small *ngIf="form.controls.lastname.errors?.['onlyLetters']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
       </small>
     </div>
   </div>
@@ -63,6 +77,8 @@
       class="form-control"
       formControlName="username"
       placeholder="Usuario"
+      (keydown)="blockSpace($event)"
+      [class.is-invalid]="form.controls.username.touched && form.controls.username.invalid"
     />
 
     <div *ngIf="form.controls.username.touched && form.controls.username.invalid">
@@ -74,6 +90,12 @@
       </small>
       <small *ngIf="form.controls.username.errors?.['maxLength']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> Mínimo 100 caracteres.
+      </small>
+      <small *ngIf="form.controls.username.errors?.['noSpaces']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      </small>
+      <small *ngIf="form.controls.username.errors?.['maxLength']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> Solo se permiten letras y números.
       </small>
     </div>
   </div>
@@ -90,6 +112,8 @@
         class="form-control"
         formControlName="password"
         placeholder="Contraseña"
+        (keydown)="blockSpace($event)"
+        [class.is-invalid]="form.controls.password.touched && form.controls.password.invalid"
       />
 
       <span
@@ -106,6 +130,57 @@
     <div *ngIf="form.controls.password.touched && form.controls.password.invalid">
       <small *ngIf="form.controls.password.errors?.['required']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> La contraseña es obligatoria.
+      </small>
+      <small *ngIf="form.controls.password.errors?.['minlength']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> Mínimo 8 caracteres.
+      </small>
+      <small *ngIf="form.controls.password.errors?.['maxlength']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> Máximo 50 caracteres.
+      </small>
+      <small *ngIf="form.controls.password.errors?.['noSpaces']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      </small>
+      <small *ngIf="form.controls.password.errors?.['invalidPassword']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> Solo letras, números y estos caracteres: @ # $ % & * ! ? . _ -
+      </small>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold" style="color: #0C2B4E;">
+      Confirmar contraseña
+    </label>
+
+    <div class="input-group">
+      <input
+        [type]="showPassword() ? 'text' : 'password'"
+        class="form-control"
+        formControlName="confirmPassword"
+        placeholder="Confirmar contraseña"
+        (keydown)="toggleConfirmPassword()"
+        [class.is-invalid]="form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid"
+      />
+
+      <span
+        class="input-group-text"
+        style="background-color: #F4F4F4; color: #1A3D64; cursor: pointer;"
+        (click)="togglePassword()"
+      >
+        <i
+          class="bi"
+          [ngClass]="showConfirmPassword() ? 'bi-eye' : 'bi-eye-slash'"
+        ></i>
+      </span>
+    </div>
+    <div *ngIf="form.controls.password.touched && form.controls.password.invalid">
+      <small *ngIf="form.controls.password.errors?.['required']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> La contraseña es obligatoria.
+      </small>
+      <small *ngIf="form.controls.password.errors?.['noSpaces']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      </small>
+      <small *ngIf="form.controls.password.errors?.['invalidPassword']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> Solo letras, números y estos caracteres: @ # $ % & * ! ? . _ -
       </small>
     </div>
   </div>

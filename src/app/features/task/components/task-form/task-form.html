@@ -27,6 +27,15 @@
       <small *ngIf="form.controls.name.errors?.['minlength']" class="text-danger d-block">
         <i class="bi bi-exclamation-circle"></i> Mínimo 3 caracteres.
       </small>
+      <small *ngIf="form.controls.name.errors?.['maxlength']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> Máximo 100 caracteres.
+      </small>
+      <small *ngIf="form.controls.name.errors?.['noSpaces']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      </small>
+      <small *ngIf="form.controls.name.errors?.['onlyLettersAndNumbers']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> Solo se permiten letras y números.
+      </small>
     </div>
   </div>
 
@@ -54,6 +63,18 @@
       <small *ngIf="form.controls.description.errors?.['required']" class="text-danger d-block">
         <i class="bi bi-exclamation-circle"></i> La descripción es obligatoria.
       </small>
+      <small *ngIf="form.controls.description.errors?.['minLength']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> Mínimo 3 caracteres.
+      </small>
+      <small *ngIf="form.controls.description.errors?.['maxLength']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> Máximo 100 caracteres.
+      </small>
+      <small *ngIf="form.controls.description.errors?.['noSpaces']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      </small>
+      <small *ngIf="form.controls.description.errors?.['patternValidator']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> Solo se permiten letras y números.
+      </small>
     </div>
   </div>
 
@@ -79,6 +100,7 @@
     type="submit"
     class="btn w-100 fw-semibold py-2 shadow-sm"
     style="background: linear-gradient(135deg, #0C2B4E 0%, #1D546C 100%); color: #F4F4F4; border: none;"
+    [disabled]="form.invalid"
   >
     <i class="bi bi-check2-circle me-2"></i>
     Guardar tarea
