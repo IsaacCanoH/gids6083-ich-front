@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { CreateUserRequest } from "../models/create-user-request.model";
-import { Observable } from "rxjs";
+import { catchError, Observable } from "rxjs";
 import { CreateUserResponse } from "../models/create-user-response.model";
+import { ErrorHandlerService } from "../../../core/services/error-handler.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,11 @@ import { CreateUserResponse } from "../models/create-user-response.model";
 export class UserApiService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = 'http://localhost:3000/api/user';
+  private readonly errorHandlerSvc = inject(ErrorHandlerService);
 
   create(payload: CreateUserRequest): Observable<CreateUserResponse> {
-    return this.http.post<CreateUserResponse>(this.apiUrl, payload);
+    return this
+      .http.post<CreateUserResponse>(this.apiUrl, payload)
+      .pipe(catchError((error) => this.errorHandlerSvc.handleHttpError(error)));
   }
 }

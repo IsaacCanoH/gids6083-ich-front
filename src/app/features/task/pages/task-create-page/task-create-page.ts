@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, EventEmitter, inject, Output, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { TaskForm } from '../../components/task-form/task-form';
 import { TaskApiService } from '../../services/task-api.service';
 import { CreateTaskRequest } from '../../models/create-task-request.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { LoaderService } from '../../../../core/services/loader.service';
+import { ApiError } from '../../../../core/models/api-error.model';
 
 @Component({
   selector: 'app-task-create-page',
@@ -20,10 +20,8 @@ export class TaskCreatePage {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly notification = inject(NotificationService);
-  private readonly loader =inject(LoaderService);
 
   onSubmit(data: CreateTaskRequest): void {
-    this.loader.show();
 
     this.taskApiSvc
       .create(data)
@@ -36,17 +34,16 @@ export class TaskCreatePage {
             'La tarea se creó correctamente.'
           )
         },
-        error: () => {
+        error: (error: ApiError) => {
           this.notification.error(
             'Error al crear tarea',
-            'No se pudo crear la tarea. Inténtalo nuevamente.'
+            error.message
           );
-          this.loader.hide();
         }
       });
   }
 
   close(): void {
-    this.router.navigate(['/tasks']);
+    void this.router.navigate(['/tasks']);
   }
 }

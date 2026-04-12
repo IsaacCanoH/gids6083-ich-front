@@ -8,7 +8,7 @@ import { SessionService } from '../../../../core/services/session.service';
 import { filter, finalize } from 'rxjs';
 import { Notification } from '../../../../core/components/notification/notification';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { LoaderService } from '../../../../core/services/loader.service';
+import { ApiError } from '../../../../core/models/api-error.model';
 
 @Component({
   selector: 'app-task-list-page',
@@ -23,7 +23,6 @@ export class TaskListPage implements OnInit {
   private readonly sessionSvc = inject(SessionService);
   private readonly router = inject(Router);
   private readonly notification = inject(NotificationService);
-  private readonly loader = inject(LoaderService);
 
   readonly tasks = signal<Task[]>([]);
   readonly user = this.sessionSvc.user;
@@ -67,7 +66,6 @@ export class TaskListPage implements OnInit {
   }
 
   loadTasks(): void {
-    this.loader.show()
 
     this.taskApiSvc
       .findAll()
@@ -76,14 +74,12 @@ export class TaskListPage implements OnInit {
         next: (tasks) => {
           this.tasks.set(tasks);
           this.currentPage.set(1);
-          this.loader.hide();
         },
-        error: () => {
+        error: (error: ApiError) => {
           this.notification.error(
             'Error al cargar tareas',
-            'No se pudieron cargar las tareas.'
+            error.message
           );
-          this.loader.hide();
         }
       });
   }
@@ -119,10 +115,10 @@ export class TaskListPage implements OnInit {
               'La tarea se eliminó correctamente.'
             );
         },
-        error: () => {
+        error: (error: ApiError) => {
           this.notification.error(
             'Error al eliminar tarea',
-            'No se pudo eliminar la tarea. Inténtalo nuevamente.'
+            error.message
           );
         }
       })
@@ -152,13 +148,11 @@ export class TaskListPage implements OnInit {
 
 
   logout(): void {
-    this.loader.show();
 
     this.sessionSvc
       .logout()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.loader.hide()),
       )
       .subscribe({
         next: () => {

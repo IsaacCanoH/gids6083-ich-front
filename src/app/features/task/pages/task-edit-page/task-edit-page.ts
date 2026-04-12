@@ -7,7 +7,7 @@ import { Task } from '../../models/task.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UpdateTaskRequest } from '../../models/update-task-request.model';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { LoaderService } from '../../../../core/services/loader.service';
+import { ApiError } from '../../../../core/models/api-error.model';
 
 @Component({
   selector: 'app-task-edit-page',
@@ -22,8 +22,6 @@ export class TaskEditPage implements OnInit {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly notification = inject(NotificationService);
-  private readonly loader = inject(LoaderService);
-
   taskId!: number;
   readonly task = signal<Task | null>(null);
 
@@ -44,7 +42,6 @@ export class TaskEditPage implements OnInit {
   }
 
   private loadTask(): void {
-    this.loader.show();
 
     this.taskApiSvc
       .findById(this.taskId)
@@ -52,20 +49,17 @@ export class TaskEditPage implements OnInit {
       .subscribe({
         next: (task) => {
           this.task.set(task);
-          this.loader.hide();
         },
-        error: () => {
+        error: (error: ApiError) => {
           this.notification.error(
             'Error al cargar tarea',
-            'No se pudo cargar la tarea.'
+            error.message
           );
-          this.loader.hide();
         }
       });
   }
 
   onSubmit(data: UpdateTaskRequest): void {
-    this.loader.show();
 
     this.taskApiSvc
       .update(this.taskId,data)
@@ -78,12 +72,11 @@ export class TaskEditPage implements OnInit {
             'La tarea se actualizó correctamente.'
           );
         },
-        error: () => {
+        error: (error: ApiError) => {
           this.notification.error(
             'Error al actualizar tarea',
-            'No se pudo actualizar la tarea. Inténtalo nuevamente.'
+            error.message
           );
-          this.loader.hide();
         }
       });
   }

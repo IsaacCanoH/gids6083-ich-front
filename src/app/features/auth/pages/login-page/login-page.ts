@@ -5,10 +5,8 @@ import { LoginForm } from '../../components/login-form/login-form';
 import { AuthApiService } from '../../services/auth-api.service';
 import { LoginRequest } from '../../models/login-request.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SessionService } from '../../../../core/services/session.service';
-import { switchMap } from 'rxjs';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { LoaderService } from '../../../../core/services/loader.service';
+import { ApiError } from '../../../../core/models/api-error.model';
 
 @Component({
   selector: 'app-login-page',
@@ -21,11 +19,9 @@ export class LoginPage {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly notification = inject(NotificationService);
-  private readonly loader = inject(LoaderService);
 
 
   onSubmit(credentials: LoginRequest): void {
-    this.loader.show();
 
     this.authApiSvc
       .login(credentials)
@@ -34,23 +30,13 @@ export class LoginPage {
       )
       .subscribe({
         next: () => {
-          this.loader.hide();
           this.router.navigate(['/tasks']);
         },
-        error: (error) => {
-          if (error.status === 401) {
-            this.notification.error(
-              'Credenciales incorrectas',
-              'El usuario o la contraseña son incorrectos. Verifícalos e inténtalo nuevamente.'
-            );
-          } else {
-            this.notification.error(
-              'Error al iniciar sesión',
-              'No se pudo iniciar sesión.'
-            );
-          }
-
-          this.loader.hide();
+        error: (error: ApiError) => {
+          this.notification.error(
+            'Error al iniciar sesión',
+            error.message
+          );
         }
       });
   }
