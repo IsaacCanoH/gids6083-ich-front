@@ -25,7 +25,7 @@ export class UserRegisterForm {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
-        CustomValidators.noSpaces(),
+        CustomValidators.textWithValidSpaces(),
         CustomValidators.patternValidator(CustomValidators.onlyLetters, 'onlyLetters')
       ]
     ],
@@ -35,7 +35,7 @@ export class UserRegisterForm {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
-        CustomValidators.noSpaces(),
+        CustomValidators.textWithValidSpaces(),
         CustomValidators.patternValidator(CustomValidators.onlyLetters, 'onlyLetters')
       ]
     ],

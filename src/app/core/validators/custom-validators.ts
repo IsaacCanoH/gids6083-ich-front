@@ -2,8 +2,33 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class CustomValidators {
   static readonly onlyLetters = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/;
-  static readonly onlyLettersAndNumbers = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+$/;
+  static readonly onlyLettersAndNumbers = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
   static readonly password = /^[a-zA-Z0-9@#$%&*!?._-]+$/;
+
+  static textWithValidSpaces(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value as string | null;
+
+      if (!value) return null;
+
+      const trimmedValue = value.trim();
+
+      // Error si todo son espacios
+      if (trimmedValue.length === 0) {
+        return { invalidSpaces: true };
+      }
+
+      const lettersCount = (trimmedValue.match(/[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9]/g) || []).length;
+      const spacesCount = (trimmedValue.match(/\s/g) || []).length;
+
+      // Error si hay más espacios que letras/números
+      if (spacesCount > lettersCount) {
+        return { invalidSpaces: true };
+      }
+
+      return null;
+    };
+  }
 
   static noSpaces(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

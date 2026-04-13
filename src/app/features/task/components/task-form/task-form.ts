@@ -26,7 +26,7 @@ export class TaskForm {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
-        CustomValidators.noSpaces(),
+        CustomValidators.textWithValidSpaces(),
         CustomValidators.patternValidator(
           CustomValidators.onlyLettersAndNumbers,
           'onlyLettersAndNumbers'
@@ -39,7 +39,7 @@ export class TaskForm {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
-        CustomValidators.noSpaces(),
+        CustomValidators.textWithValidSpaces(),
         CustomValidators.patternValidator(
           CustomValidators.onlyLettersAndNumbers,
           'onlyLettersAndNumbers'

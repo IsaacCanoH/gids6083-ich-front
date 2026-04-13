@@ -20,6 +20,7 @@
         formControlName="username"
         placeholder="Usuario"
         (keydown)="blockSpace($event)"
+        [class.is-invalid]="form.controls.username.touched && form.controls.username.invalid"
       />
     </div>
 
@@ -58,6 +59,7 @@
         formControlName="password"
         placeholder="Contraseña"
         (keydown)="blockSpace($event)"
+        [class.is-invalid]="form.controls.password.touched && form.controls.password.invalid"
       />
 
       <span

@@ -24,11 +24,11 @@
       <small *ngIf="form.controls.name.errors?.['maxLength']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> Mínimo 100 caracteres.
       </small>
-      <small *ngIf="form.controls.name.errors?.['noSpaces']" class="text-danger">
-        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      <small *ngIf="form.controls.name.errors?.['invalidSpaces']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> El texto no puede tener solo espacios ni más espacios que letras.
       </small>
       <small *ngIf="form.controls.name.errors?.['onlyLetters']" class="text-danger">
-        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+        <i class="bi bi-exclamation-circle"></i> Solo se permiten letras.
       </small>
     </div>
   </div>
@@ -57,11 +57,11 @@
       <small *ngIf="form.controls.lastname.errors?.['maxLength']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> Mínimo 100 caracteres.
       </small>
-      <small *ngIf="form.controls.lastname.errors?.['noSpaces']" class="text-danger">
-        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      <small *ngIf="form.controls.lastname.errors?.['invalidSpaces']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> El texto no puede tener solo espacios ni más espacios que letras.
       </small>
       <small *ngIf="form.controls.lastname.errors?.['onlyLetters']" class="text-danger">
-        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+        <i class="bi bi-exclamation-circle"></i> Solo se permiten letras.
       </small>
     </div>
   </div>
@@ -94,7 +94,7 @@
       <small *ngIf="form.controls.username.errors?.['noSpaces']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
       </small>
-      <small *ngIf="form.controls.username.errors?.['maxLength']" class="text-danger">
+      <small *ngIf="form.controls.username.errors?.['onlyLettersAndNumbers']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> Solo se permiten letras y números.
       </small>
     </div>

@@ -17,6 +17,7 @@
         formControlName="name"
         placeholder="Ingrese el nombre de la tarea"
         style="border: 2px solid #d9dde2; border-left: none;"
+        [class.is-invalid]="form.controls.name.touched && form.controls.name.invalid"
       />
     </div>
 
@@ -30,8 +31,8 @@
       <small *ngIf="form.controls.name.errors?.['maxlength']" class="text-danger d-block">
         <i class="bi bi-exclamation-circle"></i> Máximo 100 caracteres.
       </small>
-      <small *ngIf="form.controls.name.errors?.['noSpaces']" class="text-danger d-block">
-        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      <small *ngIf="form.controls.name.errors?.['invalidSpaces']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> El texto no puede tener solo espacios ni más espacios que letras.
       </small>
       <small *ngIf="form.controls.name.errors?.['onlyLettersAndNumbers']" class="text-danger d-block">
         <i class="bi bi-exclamation-circle"></i> Solo se permiten letras y números.
@@ -56,6 +57,7 @@
         rows="4"
         placeholder="Ingrese una descripción para la tarea"
         style="border: 2px solid #d9dde2; border-left: none; resize: none;"
+        [class.is-invalid]="form.controls.description.touched && form.controls.description.invalid"
       ></textarea>
     </div>
 
@@ -69,8 +71,8 @@
       <small *ngIf="form.controls.description.errors?.['maxLength']" class="text-danger d-block">
         <i class="bi bi-exclamation-circle"></i> Máximo 100 caracteres.
       </small>
-      <small *ngIf="form.controls.description.errors?.['noSpaces']" class="text-danger d-block">
-        <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
+      <small *ngIf="form.controls.description.errors?.['invalidSpaces']" class="text-danger d-block">
+        <i class="bi bi-exclamation-circle"></i> El texto no puede tener solo espacios ni más espacios que letras.
       </small>
       <small *ngIf="form.controls.description.errors?.['patternValidator']" class="text-danger d-block">
         <i class="bi bi-exclamation-circle"></i> Solo se permiten letras y números.
