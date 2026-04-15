@@ -22,7 +22,7 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
     catchError((error: HttpErrorResponse) => {
       // Si el error no es 401, no es un problema de sesión expirada.
       if (error.status !== 401) {
-        return throwError(() => errorHandlerService.mapHttpError(error));
+        return errorHandlerService.mapHttpError(error);
       }
       // Estas requests no deben intentar refresh
       const shouldSkipRefresh =
@@ -31,7 +31,7 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
         requestType === 'logout';
 
       if (shouldSkipRefresh) {
-        return throwError(() => errorHandlerService.mapHttpError(error));
+        return errorHandlerService.mapHttpError(error);
       }
       // Si hay un refresh en curso, esta request no inicia otro.
       if (authRefreshCoordinator.isRefreshInProgress()) {
@@ -51,7 +51,7 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
             void router.navigate(['/auth/login']);
           }
 
-          return throwError(() => errorHandlerService.mapHttpError(refreshError));
+          return errorHandlerService.mapHttpError(refreshError);
         }),
       );
     }),

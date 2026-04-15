@@ -1,17 +1,14 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
-
 import { AuthApiService } from '../../features/auth/services/auth-api.service';
 import { CurrentUser } from '../../features/auth/models/current-user.model';
 import { AuthState } from '../models/auth-state.model';
-import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
   private readonly authApiService = inject(AuthApiService);
-  private readonly errorHandlerSvc = inject(ErrorHandlerService);
 
   private readonly state = signal<AuthState>({
     isAuthenticated: false,
@@ -34,9 +31,7 @@ export class SessionService {
           isLoading: false,
         });
       }),
-      map((user) => user),
-      catchError((error) => {
-        this.errorHandlerSvc.mapHttpError(error);
+      catchError(() => {
         this.clearSession();
         this.patchState({ isLoading: false });
         return of(null);

@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateUserRequest } from '../../models/create-user-request.model';
 import { FormValidators } from '../../../../shared/validators/form-validators';
 import { blockSpace } from '../../../../shared/utils/input.utils';
+import { usernameExistsValidator } from '../../validators/username-exists.validator';
 
 @Component({
   selector: 'app-user-register-form',
@@ -47,7 +48,8 @@ export class UserRegisterForm {
         Validators.maxLength(100),
         FormValidators.noSpaces(),
         FormValidators.patternValidator(FormValidators.onlyLettersAndNumbers, 'onlyLettersAndNumbers')
-      ]
+      ],
+      [usernameExistsValidator()]
     ],
     password: [
       '',

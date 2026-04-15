@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError } from 'rxjs';
 import { AuthApiService } from '../../features/auth/services/auth-api.service';
@@ -51,7 +50,7 @@ export class AuthRefreshCoordinatorService {
         // Reintenta la request original.
         return retryRequest();
       }),
-      catchError((error: HttpErrorResponse) => {
+      catchError((error) => {
         this.isRefreshing = false;
         this.refreshStateSubject.next(false);
 

@@ -1,24 +1,12 @@
-/* =========================
-   Component tokens
-   ========================= */
-
 :host {
   --toast-success: #198754;
   --toast-warning: #fd7e14;
   --toast-danger: #dc3545;
 }
 
-/* =========================
-   Container
-   ========================= */
-
 .toast-container {
   z-index: 1080;
 }
-
-/* =========================
-   Toast base
-   ========================= */
 
 .toast {
   min-width: 350px;
@@ -33,10 +21,6 @@
   margin-top: -34px;
 }
 
-/* =========================
-   Toast sections
-   ========================= */
-
 .toast-header {
   padding: 14px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -48,10 +32,6 @@
   line-height: 1.5;
 }
 
-/* =========================
-   Toast icon
-   ========================= */
-
 .toast-icon {
   display: flex;
   align-items: center;
@@ -62,10 +42,6 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
 }
-
-/* =========================
-   Progress bar
-   ========================= */
 
 .toast-progress {
   position: absolute;
@@ -82,10 +58,6 @@
   background: rgba(255, 255, 255, 0.8);
   animation: progress 5s linear forwards;
 }
-
-/* =========================
-   Variants
-   ========================= */
 
 .toast-success {
   color: #fff;
@@ -114,10 +86,6 @@
   );
 }
 
-/* =========================
-   Variant inner elements
-   ========================= */
-
 .toast-success .toast-header,
 .toast-warning .toast-header,
 .toast-danger .toast-header {
@@ -130,10 +98,6 @@
 .toast-danger .btn-close {
   filter: brightness(0) invert(1);
 }
-
-/* =========================
-   Animations
-   ========================= */
 
 .toast.showing {
   animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);

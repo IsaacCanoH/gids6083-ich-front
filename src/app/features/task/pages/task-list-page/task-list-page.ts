@@ -156,7 +156,7 @@ export class TaskListPage implements OnInit {
       )
       .subscribe({
         next: () => {
-          window.location.href = '/auth/login';
+          void this.router.navigate(['/auth/login']);
         },
         error: (error: ApiError) => {
           this.notification.error(

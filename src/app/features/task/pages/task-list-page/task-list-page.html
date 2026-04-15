@@ -175,7 +175,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div *ngIf="filteredTasks().length > 0" class="d-flex justify-content-between align-items-center mt-4">
 
                           <button (click)="prevPage()"
                                   [disabled]="currentPage() === 1"

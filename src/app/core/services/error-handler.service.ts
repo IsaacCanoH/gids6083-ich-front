@@ -8,44 +8,21 @@ import { throwError } from "rxjs";
 })
 export class ErrorHandlerService  {
   mapHttpError(error: HttpErrorResponse) {
-    let customError: ApiError;
+    const backendMessage = error.error?.error;
 
-    if (error.status === 0) {
-      customError = {
-        status: 0,
-        message: 'No se pudo conectar con el servidor'
-      };
-    } else if (error.status === 400) {
-      customError = {
-        status: 400,
-        message: 'Los datos enviados no son válidos'
-      };
-    } else if (error.status === 401) {
-      customError = {
-        status: 401,
-        message: 'No autorizado. Inicia sesión nuevamente'
-      };
-    } else if (error.status === 403) {
-      customError = {
-        status: 403,
-        message: 'No tienes permisos para realizar esta acción'
-      };
-    } else if (error.status === 404) {
-      customError = {
-        status: 404,
-        message: 'Recurso no encontrado'
-      };
-    } else if (error.status === 500) {
-      customError = {
-        status: 500,
-        message: 'Error interno del servidor'
-      };
-    } else {
-      customError = {
-        status: error.status,
-        message: 'Ocurrió un error inesperado'
-      };
-    }
+    const fallbackMessages: Record<number, string> = {
+      0: 'No se pudo conectar con el servidor',
+      400: 'Los datos enviados no son válidos',
+      401: 'No autorizado. Inicia sesión nuevamente',
+      403: 'No tienes permisos para realizar esta acción',
+      404: 'Recurso no encontrado',
+      500: 'Error interno del servidor'
+    };
+
+    const customError: ApiError = {
+      status: error.status,
+      message: backendMessage || fallbackMessages[error.status] || 'Ocurrió un error inesperado'
+    };
 
     return throwError(() => customError);
   }

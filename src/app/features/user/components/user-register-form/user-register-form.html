@@ -97,6 +97,9 @@
       <small *ngIf="form.controls.username.errors?.['onlyLettersAndNumbers']" class="text-danger">
         <i class="bi bi-exclamation-circle"></i> Solo se permiten letras y números.
       </small>
+      <small *ngIf="form.controls.username.errors?.['usernameExists']" class="text-danger">
+        <i class="bi bi-exclamation-circle"></i> Elige otro nombre de usuario.
+      </small>
     </div>
   </div>
 
