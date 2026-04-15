@@ -1,73 +1,53 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, filter, switchMap, take, throwError } from 'rxjs';
-
-import { AuthApiService } from '../../features/auth/services/auth-api.service';
+import { catchError, throwError } from 'rxjs';
+import { AUTH_REQUEST_TYPE } from '../constants/auth-request-context.constant';
 import { ErrorHandlerService } from '../services/error-handler.service';
+import { AuthRefreshCoordinatorService } from '../services/auth-refresh-coordinator.service';
 import { SessionService } from '../services/session.service';
 
-let isRefreshing = false;
-let refreshTokenSubject = new BehaviorSubject<boolean | null>(null);
-
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
-  const authApiService = inject(AuthApiService);
   const sessionService = inject(SessionService);
   const errorHandlerService = inject(ErrorHandlerService);
+  const authRefreshCoordinator = inject(AuthRefreshCoordinatorService);
   const router = inject(Router);
+  const requestType = request.context.get(AUTH_REQUEST_TYPE);
 
   const requestWithCredentials = request.clone({
     withCredentials: true,
   });
 
-  const isLoginRequest = request.url.includes('/api/auth/login');
-  const isRefreshRequest = request.url.includes('/api/auth/refresh');
-  const isLogoutRequest = request.url.includes('/api/auth/logout');
-  const isMeRequest = request.url.includes('/api/auth/me');
-
   return next(requestWithCredentials).pipe(
     catchError((error: HttpErrorResponse) => {
+      // Si el error no es 401, no es un problema de sesión expirada.
       if (error.status !== 401) {
         return throwError(() => errorHandlerService.mapHttpError(error));
       }
+      // Estas requests no deben intentar refresh
+      const shouldSkipRefresh =
+        requestType === 'login' ||
+        requestType === 'refresh' ||
+        requestType === 'logout';
 
-      if (isLoginRequest || isRefreshRequest || isLogoutRequest) {
+      if (shouldSkipRefresh) {
         return throwError(() => errorHandlerService.mapHttpError(error));
       }
-
-      if (isRefreshing) {
-        return refreshTokenSubject.pipe(
-          filter((result) => result !== null),
-          take(1),
-          switchMap((result) => {
-            if (result) {
-              return next(requestWithCredentials);
-            }
-
-            return throwError(() => ({
-              status: 401,
-              message: 'No autorizado. Inicia sesión nuevamente',
-            }));
-          }),
+      // Si hay un refresh en curso, esta request no inicia otro.
+      if (authRefreshCoordinator.isRefreshInProgress()) {
+        return authRefreshCoordinator.waitForRefreshResult(() =>
+          next(requestWithCredentials),
         );
       }
-
-      isRefreshing = true;
-      refreshTokenSubject.next(null);
-
-      return authApiService.refresh().pipe(
-        switchMap(() => {
-          isRefreshing = false;
-          refreshTokenSubject.next(true);
-
-          return next(requestWithCredentials);
-        }),
+      // Si no hay un refresh en curso, esta request lo inicia.
+      return authRefreshCoordinator.refreshAndRetry(() =>
+        next(requestWithCredentials),
+      ).pipe(
         catchError((refreshError: HttpErrorResponse) => {
-          isRefreshing = false;
-          refreshTokenSubject.next(false);
+          // Si el refresh falla, no se recupera al sesión.
           sessionService.clearSession();
-
-          if (!isMeRequest) {
+          // Si la request original no era /me, redirige al login.
+          if (requestType !== 'me') {
             void router.navigate(['/auth/login']);
           }
 
