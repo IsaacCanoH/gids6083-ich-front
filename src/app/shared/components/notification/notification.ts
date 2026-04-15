@@ -1,4 +1,4 @@
-import { NotificationService } from './../../services/notification.service';
+import { NotificationService } from '../../../core/services/notification.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 

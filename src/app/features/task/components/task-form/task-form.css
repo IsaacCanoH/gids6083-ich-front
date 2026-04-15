@@ -1,3 +1,22 @@
+/* .form-control.is-invalid,
+textarea.form-control.is-invalid {
+  border-color: #dc3545;
+  box-shadow: none;
+}
+
+.input-group .form-control.is-invalid {
+  z-index: 2;
+} */
+
+.custom-input {
+  border: 2px solid #d9dde2;
+  border-left: none;
+}
+
+.custom-textarea {
+  resize: none;
+}
+
 .form-control.is-invalid,
 textarea.form-control.is-invalid {
   border-color: #dc3545;

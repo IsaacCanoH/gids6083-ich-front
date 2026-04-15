@@ -16,7 +16,6 @@
         class="form-control"
         formControlName="name"
         placeholder="Ingrese el nombre de la tarea"
-        style="border: 2px solid #d9dde2; border-left: none;"
         [class.is-invalid]="form.controls.name.touched && form.controls.name.invalid"
       />
     </div>
@@ -56,7 +55,6 @@
         formControlName="description"
         rows="4"
         placeholder="Ingrese una descripción para la tarea"
-        style="border: 2px solid #d9dde2; border-left: none; resize: none;"
         [class.is-invalid]="form.controls.description.touched && form.controls.description.invalid"
       ></textarea>
     </div>

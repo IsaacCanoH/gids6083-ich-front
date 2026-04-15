@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateUserRequest } from '../../models/create-user-request.model';
-import { CustomValidators } from '../../../../core/validators/custom-validators';
-import { blockSpace } from '../../../../core/utils/input.utils';
+import { FormValidators } from '../../../../shared/validators/form-validators';
+import { blockSpace } from '../../../../shared/utils/input.utils';
 
 @Component({
   selector: 'app-user-register-form',
@@ -25,8 +25,8 @@ export class UserRegisterForm {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
-        CustomValidators.textWithValidSpaces(),
-        CustomValidators.patternValidator(CustomValidators.onlyLetters, 'onlyLetters')
+        FormValidators.textWithValidSpaces(),
+        FormValidators.patternValidator(FormValidators.onlyLetters, 'onlyLetters')
       ]
     ],
     lastname: [
@@ -35,8 +35,8 @@ export class UserRegisterForm {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
-        CustomValidators.textWithValidSpaces(),
-        CustomValidators.patternValidator(CustomValidators.onlyLetters, 'onlyLetters')
+        FormValidators.textWithValidSpaces(),
+        FormValidators.patternValidator(FormValidators.onlyLetters, 'onlyLetters')
       ]
     ],
     username: [
@@ -45,8 +45,8 @@ export class UserRegisterForm {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
-        CustomValidators.noSpaces(),
-        CustomValidators.patternValidator(CustomValidators.onlyLettersAndNumbers, 'onlyLettersAndNumbers')
+        FormValidators.noSpaces(),
+        FormValidators.patternValidator(FormValidators.onlyLettersAndNumbers, 'onlyLettersAndNumbers')
       ]
     ],
     password: [
@@ -55,8 +55,8 @@ export class UserRegisterForm {
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(50),
-        CustomValidators.noSpaces(),
-        CustomValidators.patternValidator(CustomValidators.password, 'invalidPassword')
+        FormValidators.noSpaces(),
+        FormValidators.patternValidator(FormValidators.password, 'invalidPassword')
 
       ]
     ],
@@ -66,10 +66,10 @@ export class UserRegisterForm {
         Validators.required,
         Validators.maxLength(8),
         Validators.maxLength(50),
-        CustomValidators.noSpaces()
+        FormValidators.noSpaces()
       ]
     ]
-  },{ validators: [CustomValidators.matchFields('password','confirmPassword')]});
+  },{ validators: [FormValidators.matchFields('password','confirmPassword')]});
 
   readonly showPassword = signal(false);
   readonly showConfirmPassword = signal(false);

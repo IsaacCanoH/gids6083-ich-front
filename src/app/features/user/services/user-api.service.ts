@@ -4,13 +4,14 @@ import { CreateUserRequest } from "../models/create-user-request.model";
 import { catchError, Observable } from "rxjs";
 import { CreateUserResponse } from "../models/create-user-response.model";
 import { ErrorHandlerService } from "../../../core/services/error-handler.service";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserApiService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:3000/api/user';
+  private readonly apiUrl = `${environment.apiUrl}/user`;
   private readonly errorHandlerSvc = inject(ErrorHandlerService);
 
   create(payload: CreateUserRequest): Observable<CreateUserResponse> {

@@ -5,13 +5,14 @@ import { Task } from "../models/task.model";
 import { CreateTaskRequest } from "../models/create-task-request.model";
 import { UpdateTaskRequest } from "../models/update-task-request.model";
 import { ErrorHandlerService } from "../../../core/services/error-handler.service";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskApiService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:3000/api/task';
+  private readonly apiUrl = `${environment.apiUrl}/task`;
   private readonly errorHandlerSvd = inject(ErrorHandlerService);
 
   findAll(): Observable<Task[]> {

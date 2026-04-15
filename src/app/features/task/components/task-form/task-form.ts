@@ -3,8 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../../models/task.model';
 import { CreateTaskRequest } from '../../models/create-task-request.model';
 import { CommonModule } from '@angular/common';
-import { CustomValidators } from '../../../../core/validators/custom-validators';
-import { blockSpace } from '../../../../core/utils/input.utils';
+import { FormValidators } from '../../../../shared/validators/form-validators';
+import { blockSpace } from '../../../../shared/utils/input.utils';
 
 @Component({
   selector: 'app-task-form',
@@ -26,9 +26,9 @@ export class TaskForm {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
-        CustomValidators.textWithValidSpaces(),
-        CustomValidators.patternValidator(
-          CustomValidators.onlyLettersAndNumbers,
+        FormValidators.textWithValidSpaces(),
+        FormValidators.patternValidator(
+          FormValidators.onlyLettersAndNumbers,
           'onlyLettersAndNumbers'
         )
       ]
@@ -39,9 +39,9 @@ export class TaskForm {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
-        CustomValidators.textWithValidSpaces(),
-        CustomValidators.patternValidator(
-          CustomValidators.onlyLettersAndNumbers,
+        FormValidators.textWithValidSpaces(),
+        FormValidators.patternValidator(
+          FormValidators.onlyLettersAndNumbers,
           'onlyLettersAndNumbers'
         )
 

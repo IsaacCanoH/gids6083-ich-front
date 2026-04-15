@@ -6,7 +6,7 @@ import { TaskApiService } from '../../services/task-api.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SessionService } from '../../../../core/services/session.service';
 import { filter, finalize } from 'rxjs';
-import { Notification } from '../../../../core/components/notification/notification';
+import { Notification } from '../../../../shared/components/notification/notification';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ApiError } from '../../../../core/models/api-error.model';
 

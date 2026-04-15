@@ -5,13 +5,14 @@ import { catchError, Observable } from "rxjs";
 import { LoginResponse } from "../models/login-response.model";
 import { CurrentUser } from "../models/current-user.model";
 import { ErrorHandlerService } from "../../../core/services/error-handler.service";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthApiService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:3000/api/auth';
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
   private readonly errorHandlerSvc = inject(ErrorHandlerService);
 
   login(payload: LoginRequest): Observable<LoginResponse> {

@@ -1,8 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SessionService } from './core/services/session.service';
-import { Loader } from './core/components/loader/loader';
-import { Notification } from './core/components/notification/notification';
+import { Loader } from './shared/components/loader/loader';
+import { Notification } from './shared/components/notification/notification';
 
 @Component({
   selector: 'app-root',

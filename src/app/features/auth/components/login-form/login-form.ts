@@ -2,8 +2,8 @@ import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginRequest } from '../../models/login-request.model';
 import { CommonModule } from '@angular/common';
-import { blockSpace } from '../../../../core/utils/input.utils';
-import { CustomValidators } from '../../../../core/validators/custom-validators';
+import { blockSpace } from '../../../../shared/utils/input.utils';
+import { FormValidators } from '../../../../shared/validators/form-validators';
 
 @Component({
   selector: 'app-login-form',
@@ -18,8 +18,8 @@ export class LoginForm {
   @Output() formSubmit = new EventEmitter<LoginRequest>();
 
   readonly form = this.fb.nonNullable.group({
-    username: ['', [Validators.required, Validators.minLength(3), CustomValidators.noSpaces()]],
-    password: ['', [Validators.required, Validators.minLength(3), CustomValidators.noSpaces()]]
+    username: ['', [Validators.required, Validators.minLength(3), FormValidators.noSpaces()]],
+    password: ['', [Validators.required, Validators.minLength(3), FormValidators.noSpaces()]]
   })
 
   readonly showPassword = signal(false);

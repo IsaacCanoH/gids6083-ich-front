@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export class CustomValidators {
+export class FormValidators {
   static readonly onlyLetters = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/;
   static readonly onlyLettersAndNumbers = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
   static readonly password = /^[a-zA-Z0-9@#$%&*!?._-]+$/;
