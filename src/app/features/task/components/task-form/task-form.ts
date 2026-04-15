@@ -53,8 +53,8 @@ export class TaskForm {
   ngOnInit(): void {
     if (this.initialData) {
       this.form.patchValue({
-        name: this.initialData.name,
-        description: this.initialData.description,
+        name: this.initialData.name.trim(),
+        description: this.initialData.description.trim(),
         priority: this.initialData.priority,
       });
     }

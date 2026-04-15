@@ -19,4 +19,8 @@ export class UserApiService {
       .http.post<CreateUserResponse>(this.apiUrl, payload)
       .pipe(catchError((error) => this.errorHandlerSvc.mapHttpError(error)));
   }
+
+  checkUsername(username: string): Observable<{ exists: boolean }> {
+    return this.http.get<{ exists: boolean }>(`${this.apiUrl}/check-username/${username}`)
+  }
 }

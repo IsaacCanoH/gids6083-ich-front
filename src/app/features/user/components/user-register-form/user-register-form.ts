@@ -64,7 +64,7 @@ export class UserRegisterForm {
       '',
       [
         Validators.required,
-        Validators.maxLength(8),
+        Validators.minLength(8),
         Validators.maxLength(50),
         FormValidators.noSpaces()
       ]
@@ -83,6 +83,11 @@ export class UserRegisterForm {
   }
 
   submit(): void {
+    this.form.patchValue({
+      name: this.form.controls.name.value.trim(),
+      lastname: this.form.controls.lastname.value.trim()
+    });
+
     if (this.form.invalid) return;
 
     const { confirmPassword, ...userData } = this.form.getRawValue();

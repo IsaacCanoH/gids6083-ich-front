@@ -3,7 +3,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 export class FormValidators {
   static readonly onlyLetters = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/;
   static readonly onlyLettersAndNumbers = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
-  static readonly password = /^[a-zA-Z0-9@#$%&*!?._-]+$/;
+  static readonly password = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%&*!?._-])[A-Za-z\d@#$%&*!?._-]+$/;
 
   static textWithValidSpaces(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

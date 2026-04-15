@@ -141,11 +141,12 @@
         <i class="bi bi-exclamation-circle"></i> No se permiten espacios en blanco.
       </small>
       <small *ngIf="form.controls.password.errors?.['invalidPassword']" class="text-danger">
-        <i class="bi bi-exclamation-circle"></i> Solo letras, números y estos caracteres: @ # $ % & * ! ? . _ -
+        <i class="bi bi-exclamation-circle"></i> La contraseña debe contener al menos una letra, un número y un carácter especial (@ # $ % &amp; * ! ? . _ -).
       </small>
     </div>
   </div>
 
+  <!-- CONFIRM PASSWORD -->
   <div class="mb-3">
     <label class="form-label fw-semibold" style="color: #0C2B4E;">
       Confirmar contraseña
