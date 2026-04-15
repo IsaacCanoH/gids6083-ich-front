@@ -4,14 +4,16 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, filter, switchMap, take, throwError } from 'rxjs';
 
 import { AuthApiService } from '../../features/auth/services/auth-api.service';
+import { ErrorHandlerService } from '../services/error-handler.service';
 import { SessionService } from '../services/session.service';
 
 let isRefreshing = false;
-let refreshTokenSubject = new BehaviorSubject<any>(null);
+let refreshTokenSubject = new BehaviorSubject<boolean | null>(null);
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
   const authApiService = inject(AuthApiService);
   const sessionService = inject(SessionService);
+  const errorHandlerService = inject(ErrorHandlerService);
   const router = inject(Router);
 
   const requestWithCredentials = request.clone({
@@ -26,15 +28,11 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
   return next(requestWithCredentials).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status !== 401) {
-        return throwError(() => error);
+        return throwError(() => errorHandlerService.mapHttpError(error));
       }
 
-      if (
-        isLoginRequest ||
-        isRefreshRequest ||
-        isLogoutRequest
-      ) {
-        return throwError(() => error);
+      if (isLoginRequest || isRefreshRequest || isLogoutRequest) {
+        return throwError(() => errorHandlerService.mapHttpError(error));
       }
 
       if (isRefreshing) {
@@ -44,33 +42,38 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
           switchMap((result) => {
             if (result) {
               return next(requestWithCredentials);
-            } else {
-              return throwError(() => new Error('Refresh failed'));
             }
-          })
-        );
-      } else {
-        isRefreshing = true;
-        refreshTokenSubject.next(null);
 
-        return authApiService.refresh().pipe(
-          switchMap(() => {
-            isRefreshing = false;
-            refreshTokenSubject.next(true);
-            return next(requestWithCredentials);
+            return throwError(() => ({
+              status: 401,
+              message: 'No autorizado. Inicia sesión nuevamente',
+            }));
           }),
-          catchError((refreshError) => {
-            isRefreshing = false;
-            refreshTokenSubject.next(false);
-            sessionService.clearSession();
-            if (!isMeRequest) {
-              void router.navigate(['/auth/login']);
-            }
-            return throwError(() => refreshError);
-          })
         );
       }
+
+      isRefreshing = true;
+      refreshTokenSubject.next(null);
+
+      return authApiService.refresh().pipe(
+        switchMap(() => {
+          isRefreshing = false;
+          refreshTokenSubject.next(true);
+
+          return next(requestWithCredentials);
+        }),
+        catchError((refreshError: HttpErrorResponse) => {
+          isRefreshing = false;
+          refreshTokenSubject.next(false);
+          sessionService.clearSession();
+
+          if (!isMeRequest) {
+            void router.navigate(['/auth/login']);
+          }
+
+          return throwError(() => errorHandlerService.mapHttpError(refreshError));
+        }),
+      );
     }),
   );
 };
-

@@ -7,7 +7,7 @@ import { throwError } from "rxjs";
   providedIn: 'root'
 })
 export class ErrorHandlerService  {
-  handleHttpError(error: HttpErrorResponse) {
+  mapHttpError(error: HttpErrorResponse) {
     let customError: ApiError;
 
     if (error.status === 0) {

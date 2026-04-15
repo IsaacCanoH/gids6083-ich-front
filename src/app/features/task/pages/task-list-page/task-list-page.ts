@@ -158,10 +158,10 @@ export class TaskListPage implements OnInit {
         next: () => {
           window.location.href = '/auth/login';
         },
-        error: () => {
+        error: (error: ApiError) => {
           this.notification.error(
             'Error al cerrar sesión',
-            'No se pudo cerrar la sesión. Inténtalo nuevamente.',
+            error.message
           );
         },
       });

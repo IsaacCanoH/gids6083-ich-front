@@ -17,6 +17,6 @@ export class UserApiService {
   create(payload: CreateUserRequest): Observable<CreateUserResponse> {
     return this
       .http.post<CreateUserResponse>(this.apiUrl, payload)
-      .pipe(catchError((error) => this.errorHandlerSvc.handleHttpError(error)));
+      .pipe(catchError((error) => this.errorHandlerSvc.mapHttpError(error)));
   }
 }

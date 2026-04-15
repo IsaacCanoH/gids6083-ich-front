@@ -1,4 +1,3 @@
-import { loaderInterceptor } from './core/interceptors/loader.interceptor';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -10,6 +9,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([loaderInterceptor,authInterceptor]))
+    provideHttpClient(withInterceptors([authInterceptor]))
   ]
 };

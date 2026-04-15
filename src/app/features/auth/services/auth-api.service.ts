@@ -18,24 +18,24 @@ export class AuthApiService {
   login(payload: LoginRequest): Observable<LoginResponse> {
     return this
       .http.post<LoginResponse>(`${this.apiUrl}/login`, payload)
-      .pipe(catchError((error) => this.errorHandlerSvc.handleHttpError(error)));
+      .pipe(catchError((error) => this.errorHandlerSvc.mapHttpError(error)));
   }
 
   me(): Observable<CurrentUser> {
     return this
       .http.get<CurrentUser>(`${this.apiUrl}/me`)
-      .pipe(catchError((error) => this.errorHandlerSvc.handleHttpError(error)));
+      .pipe(catchError((error) => this.errorHandlerSvc.mapHttpError(error)));
   }
 
   refresh(): Observable<{ message: string }> {
     return this
       .http.post<{ message: string }>(`${this.apiUrl}/refresh`,{})
-      .pipe(catchError((error) => this.errorHandlerSvc.handleHttpError(error)));
+      .pipe(catchError((error) => this.errorHandlerSvc.mapHttpError(error)));
   }
 
   logout(): Observable<void> {
     return this
       .http.post<void>(`${this.apiUrl}/logout`,{})
-      .pipe(catchError((error) => this.errorHandlerSvc.handleHttpError(error)));
+      .pipe(catchError((error) => this.errorHandlerSvc.mapHttpError(error)));
   }
 }
